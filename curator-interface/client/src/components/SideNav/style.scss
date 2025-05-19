@@ -1,0 +1,4 @@
+.cds--side-nav__item::marker {
+  content: none; /* Remove o marcador */
+  display: none; /* Alternativamente, você pode ocultá-lo dessa forma */
+}

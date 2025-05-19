@@ -1,0 +1,46 @@
+.content {
+  height: 90vh;
+}
+
+#dash {
+  height: 100%;
+}
+
+.no-assistant {
+  padding: 2rem;
+  font-weight: 800;
+}
+
+// #newExperimentButton {
+//   position: fixed;
+//   left: 7rem;
+//   z-index: 10000;
+//   bottom: 1rem;
+// }
+
+#runExperimentButton {
+  opacity: 30%;
+  transition: 0.6s;
+  display: flex; /* Flexbox para alinhar o conteúdo corretamente */
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  min-height: 3rem; /* Altura mínima para garantir espaço para o ícone de loading */
+}
+
+#runExperimentButton:hover {
+  opacity: 100%;
+}
+
+#runExperimentButton[disabled] {
+  pointer-events: none; /* Desativa eventos do botão enquanto carregando */
+}
+
+#runExperimentButton .loading-icon {
+  margin-left: 10px; /* Espaço entre o texto e o ícone de loading */
+}
+
+/* Remove o marcador padrão */
+li::marker {
+  content: ""; /* Remove o conteúdo */
+  display: none; /* Alternativamente, esconde o marcador */
+}
