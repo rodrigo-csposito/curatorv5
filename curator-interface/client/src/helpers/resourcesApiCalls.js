@@ -1,9 +1,28 @@
 import api from "../services/api";
 
+import axios from "axios";
+
+axios.defaults.withCredentials = true; // ✅ garante envio dos cookies
+
 export async function getAvailableWorkspaces() {
-  const res = await api.get("/ibmid/curator/workspaces");
-  return res.data;
+  try {
+    const res = await api.get("/db2/getAssistants");
+    console.log("🚨 Dados crus recebidos do backend:", res.data);
+
+    const mapped = res.data.map((a) => ({
+      skill_id: a.SKILL_ID || a.skill_id || "",
+      skill_name: a.SKILL_NAME || a.name || a.NAME || "",
+      link: a.COGNOSURL || a.LINK || a.link || ""
+    }));
+
+    console.log("🔍 Dados mapeados:", mapped);
+    return mapped;
+  } catch (err) {
+    console.error("❌ Erro ao buscar workspaces:", err);
+    return [];
+  }
 }
+
 
 export async function listAccounts() {
   const res = await api.get("/ibmid/accounts");

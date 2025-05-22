@@ -132,44 +132,44 @@ const getAssistants = async (req, res) => {
   }
 };
 
-// const getAssistantWithWorkspace = async (req, res) => {
-//   try {
-//     console.log("Connecting to DB2...");
-//     const conn = await connect(process.env.DB2_CONN_STR);
-//     console.log("Connected to DB2");
+const getAssistantWithWorkspace = async (req, res) => {
+  try {
+    console.log("Connecting to DB2...");
+    const conn = await connect(process.env.DB2_CONN_STR);
+    console.log("Connected to DB2");
 
-//     // Query para unir WORKSPACES e ASSISTANTS
-//     const query = `
-//       SELECT
-//           w.skill_name,
-//           COALESCE(a.link, '') AS cognos_link -- retorna link ou vazio se não existir
-//       FROM
-//           CURATOR.WORKSPACES w
-//       LEFT JOIN
-//           CURATOR.ASSISTANTS a
-//       ON
-//           w.skill_name = a.name
-//     `;
+    // Query para unir WORKSPACES e ASSISTANTS
+    const query = `
+      SELECT
+          w.skill_name,
+          COALESCE(a.link, '') AS cognos_link -- retorna link ou vazio se não existir
+      FROM
+          CURATOR.WORKSPACES w
+      LEFT JOIN
+          CURATOR.ASSISTANTS a
+      ON
+          w.skill_name = a.name
+    `;
 
-//     console.log("Executing query:", query);
+    console.log("Executing query:", query);
 
-//     // Executar a query
-//     const result = await selectLogs(conn, query);
-//     console.log("Query result:", result);
+    // Executar a query
+    const result = await selectLogs(conn, query);
+    console.log("Query result:", result);
 
-//     await endConnection(conn);
-//     console.log("Connection closed");
+    await endConnection(conn);
+    console.log("Connection closed");
 
-//     if (result.length === 0) {
-//       return res.status(404).send({ error: "No matching data found." });
-//     }
+    if (result.length === 0) {
+      return res.status(404).send({ error: "No matching data found." });
+    }
 
-//     res.status(200).send(result);
-//   } catch (error) {
-//     console.error("Error fetching assistant with workspace:", error);
-//     res.status(500).send({ error: "Failed to fetch data." });
-//   }
-// };
+    res.status(200).send(result);
+  } catch (error) {
+    console.error("Error fetching assistant with workspace:", error);
+    res.status(500).send({ error: "Failed to fetch data." });
+  }
+};
 
 module.exports = {
   getConversations,
@@ -177,5 +177,5 @@ module.exports = {
   arrangeConversations,
   saveAssistant,
   getAssistants,
-  // getAssistantWithWorkspace,
+  getAssistantWithWorkspace,
 };
