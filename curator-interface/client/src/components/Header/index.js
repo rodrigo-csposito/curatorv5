@@ -54,11 +54,16 @@ export default function HeaderIcc({ renderSave }) {
   const [openSidePanel, setOpenSidePanel] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
-  useEffect(() => {
-    if (assistants && !selectedAssistant) {
-      setSelectedAssistant(assistants[0]);
+useEffect(() => {
+  if (Array.isArray(assistants) && assistants.length > 0 && !selectedAssistant) {
+    const first = assistants[0];
+    if (first?.SKILL_NAME || first?.skill_name) {
+      console.log("✅ Setando selectedAssistant:", first);
+      setSelectedAssistant(first);
     }
-  }, [assistants, selectedAssistant, setSelectedAssistant]);
+  }
+}, [assistants, selectedAssistant]);
+
 
   const handleSaveCognosLink = async (assistantName, cognosLink) => {
     setIsSaving(true);
@@ -110,33 +115,37 @@ export default function HeaderIcc({ renderSave }) {
           <>
             <HeaderGlobalBar>
               <HeaderNavigation aria-label="language-bar">
-                <HeaderMenu
-                  aria-label="assistants"
-                  menuLinkName={
-                    selectedAssistant?.SKILL_NAME ?? "Não há WA cadastrados"
-                  }
-                >
-                  {assistants.length > 0 ? (
-                    assistants.map((assistant, index) => (
-                      <HeaderMenuItem
-                        key={index}
-                        onClick={() => setSelectedAssistant(assistant)}
-                      >
-                        {assistant.SKILL_NAME}
-                      </HeaderMenuItem>
-                    ))
-                  ) : (
-                    <HeaderMenuItem disabled>
-                      {Language[language].header.assistant}
-                    </HeaderMenuItem>
-                  )}
-                  <HeaderMenuItem
-                    onClick={() => setActiveModal("cognos")}
-                    style={{ fontWeight: "bold" }}
-                  >
-                    <Add /> {Language[language].header.linkModal}
-                  </HeaderMenuItem>
-                </HeaderMenu>
+<HeaderMenu
+  aria-label="assistants"
+  menuLinkName={
+    selectedAssistant?.SKILL_NAME ||
+    selectedAssistant?.skill_name ||
+    "Não há WA cadastrados"
+  }
+>
+  {Array.isArray(assistants) && assistants.length > 0 ? (
+    assistants.map((assistant, index) => (
+      <HeaderMenuItem
+        key={index}
+        onClick={() => setSelectedAssistant(assistant)}
+      >
+        {assistant.SKILL_NAME || assistant.skill_name || "Sem nome"}
+      </HeaderMenuItem>
+    ))
+  ) : (
+    <HeaderMenuItem disabled>
+      Nenhum assistente disponível
+    </HeaderMenuItem>
+  )}
+
+  <HeaderMenuItem
+    onClick={() => setActiveModal("cognos")}
+    style={{ fontWeight: "bold" }}
+  >
+    <Add /> Adicionar link do Cognos
+  </HeaderMenuItem>
+</HeaderMenu>
+
                 <HeaderMenu
                   aria-label="language"
                   menuLinkName={languageIcons[language]}

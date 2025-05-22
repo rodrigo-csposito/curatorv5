@@ -78,7 +78,7 @@ export default function Dashboard() {
             />
             <ButtonSet style={{ width: "50%" }}>
               <Button
-                href={`${window.location.protocol}//${window.location.host}/ibmid/passcode`}
+                href={`${process.env.REACT_APP_BACKEND_URL}/ibmid/passcode`}
                 target="_blank"
                 kind="secondary"
               >

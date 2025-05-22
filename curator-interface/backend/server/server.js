@@ -38,11 +38,18 @@ app.use("/cloudant", cloudantRoutes);
 const experimentRoutes = require("./routes/experiment");
 app.use("/experiment", experimentRoutes);
 
-app.use(express.static(path.join(__dirname, "../build")));
+app.use(cors({
+  origin: "http://localhost:3001",
+  credentials: true
+}));
 
-app.use("", (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, "../build", "index.html"));
+
+app.use(express.static(path.join(__dirname, "../../client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
 });
+
+
 
 // start node server
 const port = process.env.PORT || 3000;
